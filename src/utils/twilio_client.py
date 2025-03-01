@@ -34,3 +34,16 @@ class TwilioClient:
                 message_data["content_variables"] = kwargs["variables"]
 
         self.client.messages.create(**message_data)
+
+    def verify_user(self) -> bool:
+        """
+        Envía un mensaje de WhatsApp con un código de verificación.
+
+        Parámetros:
+        - to (str): Número de teléfono del destinatario (formato internacional).
+        - code (str): Código de verificación.
+        """
+        account = self.client.api.v2010.accounts(
+            settings.TWILIO_ACCOUNT_SID).fetch()
+
+        return account.status == 'active'
